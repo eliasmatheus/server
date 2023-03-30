@@ -1,6 +1,6 @@
 # Blog em Flask
 
-Este pequeno projeto do backend de um blog em flask desenvolvido na Disciplina **Desenvolvimento Full Stack Básico**
+Este pequeno projeto do backend de um blog desenvolvido em flask para a Disciplina **Desenvolvimento Full Stack Básico** do programa de pós graduação em Desenvolvimento Full Stack da [PUC-Rio](https://www.puc-rio.br/index.html)
 
 ---
 
