@@ -1,12 +1,10 @@
-# Minha API
+# Blog em Flask
 
-Este pequeno projeto faz parte do material diático da Disciplina **Desenvolvimento Full Stack Básico** 
-
-O objetivo aqui é ilutsrar o conteúdo apresentado ao longo das três aulas da disciplina.
+Este pequeno projeto do backend de um blog em flask desenvolvido na Disciplina **Desenvolvimento Full Stack Básico**
 
 ---
-## Como executar 
 
+## Como executar
 
 Será necessário ter todas as libs python listadas no `requirements.txt` instaladas.
 Após clonar o repositório, é necessário ir ao diretório raiz, pelo terminal, para poder executar os comandos descritos abaixo.
@@ -19,14 +17,14 @@ Após clonar o repositório, é necessário ir ao diretório raiz, pelo terminal
 
 Este comando instala as dependências/bibliotecas, descritas no arquivo `requirements.txt`.
 
-Para executar a API  basta executar:
+Para executar a API basta executar:
 
 ```
 (env)$ flask run --host 0.0.0.0 --port 5000
 ```
 
 Em modo de desenvolvimento é recomendado executar utilizando o parâmetro reload, que reiniciará o servidor
-automaticamente após uma mudança no código fonte. 
+automaticamente após uma mudança no código fonte.
 
 ```
 (env)$ flask run --host 0.0.0.0 --port 5000 --reload
