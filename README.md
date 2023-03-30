@@ -2,6 +2,10 @@
 
 Este pequeno projeto do backend de um blog desenvolvido em flask para a Disciplina **Desenvolvimento Full Stack Básico** do programa de pós graduação em Desenvolvimento Full Stack da [PUC-Rio](https://www.puc-rio.br/index.html)
 
+<p align="center">
+  <img src="./static/screenshot.png" alt="My Project GIF">
+</p>
+
 ---
 
 ## Como executar
