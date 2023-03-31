@@ -50,6 +50,36 @@ def get_posts():
         return apresenta_posts(posts), 200
 
 
+@app.get('/post/<int:id>', tags=[post_tag], responses={"200": PostViewSchema, "404": ErrorSchema})
+def get_post(path: BlogPostSearchSchema):
+    """Busca um post específico à partir do id
+
+    Retorna uma representação do post.
+    """
+    post_id = path.id
+
+    logger.debug(f"Coletando post com ID: {post_id} ")
+
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+
+    post = session.query(BlogPost).filter(
+        BlogPost.id == post_id).one()
+
+    if not post:
+        # se o post não foi encontrado
+        error_msg = "Post não encontrado na base :/"
+        logger.warning(
+            f"Erro ao buscar post com ID: #'{post_id}', {error_msg}")
+        return {"message": error_msg}, 404
+    else:
+        logger.debug(f"post com ID: #{post_id} encontrado com sucesso")
+        # retorna a representação de posts
+        print(post)
+        return apresenta_post(post), 200
+
+
 @app.post('/post', tags=[post_tag],
           responses={"200": PostViewSchema, "409": ErrorSchema, "400": ErrorSchema})
 def add_post(form: BlogPostSchema):

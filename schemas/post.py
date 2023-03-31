@@ -16,7 +16,7 @@ class BlogPostSearchSchema(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será
         feita apenas com base no id do post.
     """
-    id: int = 1
+    id: int = 2
 
 
 class BlogPostListSchema(BaseModel):
@@ -33,6 +33,7 @@ class PostViewSchema(BaseModel):
     subtitle: str = "Subtítulo do post"
     author: str = "Autor do post"
     content: str = "Conteúdo do post"
+    date_posted: str = "Data de postagem"
 
 
 def apresenta_posts(posts: List[BlogPost]):
@@ -47,6 +48,7 @@ def apresenta_posts(posts: List[BlogPost]):
             "subtitle": post.subtitle,
             "author": post.author,
             "content": post.content,
+            "date_posted": post.date_posted,
         })
 
     return {"posts": result}
@@ -62,6 +64,7 @@ def apresenta_post(post: BlogPost):
         "subtitle": post.subtitle,
         "author": post.author,
         "content": post.content,
+        "date_posted": post.date_posted,
     }
 
 
