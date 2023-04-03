@@ -1,4 +1,10 @@
-from schemas.post import BlogPostSchema, BlogPostSearchSchema, \
-    BlogPostListSchema, apresenta_posts, apresenta_post, PostViewSchema, \
-    PostDeletionSchema
+from schemas.article import (
+    ArticleSchema,
+    ArticleSearchSchema,
+    ArticleListSchema,
+    show_article,
+    show_articles,
+    ArticleViewSchema,
+    ArticleDeletionSchema,
+)
 from schemas.error import ErrorSchema

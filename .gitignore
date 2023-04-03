@@ -1,4 +1,5 @@
 .venv
 database/*
+database-backup/*
 log/*
 __pycache__/
