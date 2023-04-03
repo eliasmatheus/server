@@ -1,6 +1,5 @@
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect
-from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
 
@@ -40,7 +39,7 @@ def home():
     tags=[article_tag],
     responses={"200": ArticleListSchema, "404": ErrorSchema},
 )
-def show_articles():
+def get_articles():
     """Faz a busca por todos os artigos cadastrados.
 
     Retorna uma representação da listagem de artigos.
@@ -52,6 +51,8 @@ def show_articles():
     # fazendo a busca
     articles = session.query(Article).all()
 
+    print(articles)
+
     if not articles:
         # se não há artigos cadastrados
         return {"articles": []}, 200
@@ -59,11 +60,11 @@ def show_articles():
         logger.debug(f"%d artigos encontrados" % len(articles))
         # retorna a representação de artigos
         print(articles)
-        return show_article(articles), 200
+        return show_articles(articles), 200
 
 
 @app.get(
-    "/article/<int:id>",
+    "/article/<string:id>",
     tags=[article_tag],
     responses={"200": ArticleViewSchema, "404": ErrorSchema},
 )
@@ -85,7 +86,9 @@ def get_article(path: ArticleSearchSchema):
     if not article:
         # se o artigo não foi encontrado
         error_msg = "Artigo não encontrado na base :/"
-        log_error_msg = f"Erro ao buscar artigo com ID: #'{article_id}', {error_msg}"
+        log_error_msg = (
+            f"Erro ao buscar artigo com ID: #'{article_id}', {error_msg}"
+        )
 
         logger.warning(log_error_msg)
         return {"message": error_msg}, 404
@@ -99,19 +102,18 @@ def get_article(path: ArticleSearchSchema):
 @app.post(
     "/article",
     tags=[article_tag],
-    responses={"200": ArticleViewSchema, "409": ErrorSchema, "400": ErrorSchema},
+    responses={
+        "200": ArticleViewSchema,
+        "409": ErrorSchema,
+        "400": ErrorSchema,
+    },
 )
 def add_article(form: ArticleSchema):
     """Adiciona um novo artigo à base de dados.
 
     Retorna uma representação dos artigos.
     """
-    article = Article(
-        title=form.title,
-        subtitle=form.subtitle,
-        author=form.author,
-        content=form.content,
-    )
+    article = Article(**form.dict())
 
     print(article)
 
@@ -132,7 +134,9 @@ def add_article(form: ArticleSchema):
     except IntegrityError as e:
         # como a duplicidade do título é a provável razão do IntegrityError
         error_msg = "Artigo de mesmo título já salvo na base :/"
-        log_error_msg = f"Erro ao adicionar artigo '{article.title}', {error_msg}"
+        log_error_msg = (
+            f"Erro ao adicionar artigo '{article.title}', {error_msg}"
+        )
         logger.warning(log_error_msg)
 
         return {"message": error_msg}, 409
@@ -140,7 +144,9 @@ def add_article(form: ArticleSchema):
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo artigo :/"
-        log_error_msg = f"Erro ao adicionar artigo '{article.title}', {error_msg}"
+        log_error_msg = (
+            f"Erro ao adicionar artigo '{article.title}', {error_msg}"
+        )
         logger.warning(log_error_msg)
 
         return {"mesage": error_msg}, 400
@@ -149,29 +155,29 @@ def add_article(form: ArticleSchema):
 @app.put(
     "/article",
     tags=[article_tag],
-    responses={"200": ArticleViewSchema, "409": ErrorSchema, "400": ErrorSchema},
+    responses={
+        "200": ArticleViewSchema,
+        "409": ErrorSchema,
+        "400": ErrorSchema,
+    },
 )
 def edit_article(query: ArticleViewSchema):
     """Edita um artigo já existente na base de dados.
 
     Retorna uma representação dos artigos.
     """
-    article = Article(
-        title=query.title,
-        subtitle=query.subtitle,
-        author=query.author,
-        content=query.content,
-    )
+    article = Article(**query.dict())
 
     # criando conexão com a base
     session = Session()
 
     # fazendo a busca
     article_id = query.id
-    old_article = session.query(Article).filter(Article.id == article_id).first()
+    old_article = (
+        session.query(Article).filter(Article.id == article_id).first()
+    )
 
     logger.debug(f"Editando artigo de ID: '{old_article.id}'")
-    log_error_msg = f"Erro ao adicionar artigo '{article.title}', {error_msg}"
 
     try:
         # edita os valores do artigo
@@ -189,6 +195,9 @@ def edit_article(query: ArticleViewSchema):
     except IntegrityError as e:
         # como a duplicidade do título é a provável razão do IntegrityError
         error_msg = "Artigo de mesmo título já salvo na base :/"
+        log_error_msg = (
+            f"Erro ao adicionar artigo '{article.title}', {error_msg}"
+        )
         logger.warning(log_error_msg)
 
         return {"message": error_msg}, 409
@@ -196,6 +205,9 @@ def edit_article(query: ArticleViewSchema):
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo artigo :/"
+        log_error_msg = (
+            f"Erro ao adicionar artigo '{article.title}', {error_msg}"
+        )
         logger.warning(log_error_msg)
 
         return {"message": error_msg}, 400
@@ -229,7 +241,9 @@ def delete_article(query: ArticleSearchSchema):
     else:
         # se o artigo não foi encontrado
         error_msg = "Artigo não encontrado na base :/"
-        log_error_msg = f"Erro ao remover artigo com ID: '{article_id}', {error_msg}"
+        log_error_msg = (
+            f"Erro ao remover artigo com ID: '{article_id}', {error_msg}"
+        )
         logger.warning(log_error_msg)
 
         return {"message": error_msg}, 404
