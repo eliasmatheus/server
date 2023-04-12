@@ -1,12 +1,25 @@
-import re
-from sqlalchemy import Column, String, Integer, DateTime, Text
+"""Arquivo com a estrutura da classe Article."""
+
+from sqlalchemy import Column, String, DateTime, Text
 from datetime import datetime
 from typing import Union
-from unidecode import unidecode
 from model import Base
+from utils.strings import (
+    add_date_prefix,
+    limit_length,
+    remove_special_chars,
+    replace_spaces,
+)
 
 
 class Article(Base):
+    """Define a estrutura da tabela de artigos.
+
+    Args:
+        Base (Type[_DeclarativeBase]): Classe base para a criação de novas
+            tabelas.
+    """
+
     __tablename__ = "articles"
 
     id = Column(String(50), primary_key=True)
@@ -43,7 +56,7 @@ class Article(Base):
         """
         # Se não for informado um ID, será gerado um baseado no título
         if not id:
-            id = self.generate_id(title)
+            id = self.__generate_id(title)
 
         # Se o ID for informado, o valor não será alterado mesmo que o título
         # seja, para evitar problemas de integridade referencial
@@ -57,27 +70,10 @@ class Article(Base):
         if date_posted:
             self.date_posted = date_posted
 
-    def generate_id(self, title):
+    def __generate_id(self, title):
         """Gera um id para o artigo baseado no título."""
-        id_string = self.remove_special_chars(title)
-        id_string = self.replace_spaces(id_string)
-        id_string = self.add_date_prefix(id_string)
-        id_string = self.limit_length(id_string, 50)
+        id_string = remove_special_chars(title)
+        id_string = replace_spaces(id_string)
+        id_string = add_date_prefix(id_string)
+        id_string = limit_length(id_string, 50)
         return id_string.lower()
-
-    def remove_special_chars(self, title):
-        """Remove caracteres especiais do título."""
-        return re.sub(r"[^a-zA-Z0-9\s]", "", unidecode(title))
-
-    def replace_spaces(self, id_string):
-        """Substitui espaços em branco por hífens."""
-        return re.sub(r"\s+", "-", id_string)
-
-    def add_date_prefix(self, id_string):
-        """Adiciona a data no início da string."""
-        date = datetime.now().strftime("%Y-%m-%d")
-        return f"{date}-{id_string}"
-
-    def limit_length(self, id_string, length):
-        """Limita o comprimento da string."""
-        return id_string[:length]

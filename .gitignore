@@ -3,3 +3,4 @@ database/*
 database-backup/*
 log/*
 __pycache__/
+.vscode/
