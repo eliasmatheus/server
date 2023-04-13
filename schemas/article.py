@@ -32,6 +32,12 @@ class ArticleListSchema(BaseModel):
     articles: List[ArticleSchema]
 
 
+class ArticleUpdateSchema(ArticleSchema):
+    """Define a estrutura de um artigo retornada no post ou get."""
+
+    id: str = "ID do artigo"
+
+
 class ArticleViewSchema(ArticleSchema):
     """Define a estrutura de um artigo retornada no post ou get."""
 

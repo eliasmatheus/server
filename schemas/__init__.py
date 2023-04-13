@@ -6,5 +6,6 @@ from schemas.article import (
     show_articles,
     ArticleViewSchema,
     ArticleDeletionSchema,
+    ArticleUpdateSchema,
 )
 from schemas.error import ErrorSchema

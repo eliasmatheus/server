@@ -161,18 +161,18 @@ def add_article(form: ArticleSchema):
         "400": ErrorSchema,
     },
 )
-def edit_article(query: ArticleViewSchema):
+def edit_article(form: ArticleUpdateSchema):
     """Edita um artigo já existente na base de dados.
 
     Retorna uma representação dos artigos.
     """
-    article = Article(**query.dict())
+    article = Article(**form.dict())
 
     # criando conexão com a base
     session = Session()
 
     # fazendo a busca
-    article_id = query.id
+    article_id = form.id
     old_article = (
         session.query(Article).filter(Article.id == article_id).first()
     )
