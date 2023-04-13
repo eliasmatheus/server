@@ -31,11 +31,11 @@ class Article(Base):
 
     def __init__(
         self,
-        id: str,
         title: str,
         subtitle: str,
         author: str,
         content: str,
+        id: str = None,
         date_posted: Union[DateTime, None] = None,
     ):
         """
@@ -56,7 +56,7 @@ class Article(Base):
         """
         # Se não for informado um ID, será gerado um baseado no título
         if not id:
-            id = self.__generate_id(title)
+            id = self.generate_id(title)
 
         # Se o ID for informado, o valor não será alterado mesmo que o título
         # seja, para evitar problemas de integridade referencial
@@ -70,7 +70,8 @@ class Article(Base):
         if date_posted:
             self.date_posted = date_posted
 
-    def __generate_id(self, title):
+    def generate_id(self, title):
+        print(title)
         """Gera um id para o artigo baseado no título."""
         id_string = remove_special_chars(title)
         id_string = replace_spaces(id_string)
