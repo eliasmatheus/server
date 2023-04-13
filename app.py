@@ -214,16 +214,17 @@ def edit_article(form: ArticleUpdateSchema):
 
 
 @app.delete(
-    "/article",
+    "/article/<string:id>",
     tags=[article_tag],
     responses={"200": ArticleDeletionSchema, "404": ErrorSchema},
 )
-def delete_article(query: ArticleSearchSchema):
+def delete_article(path: ArticleSearchSchema):
     """Remove um article à partir do id informado.
 
     Retorna uma mensagem de confirmação da remoção.
     """
-    article_id = query.id
+    article_id = path.id
+
     print(article_id)
     logger.debug(f"Removendo artigo com ID: #{article_id}")
 
