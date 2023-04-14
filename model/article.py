@@ -85,16 +85,3 @@ class Article(Base):
         id_string = add_date_prefix(id_string)
         id_string = limit_length(id_string, 50)
         return id_string.lower()
-
-    def __repr__(self):
-        """Representação do objeto em formato de string."""
-        return (
-            f"Article(\n"
-            f" id={self.id},\n"
-            f" title={self.title},\n"
-            f" subtitle={self.subtitle},\n"
-            f" author_id={self.author_id},\n"
-            f" content={self.content},\n"
-            f" date_posted={self.date_posted}\n"
-            f")"
-        )

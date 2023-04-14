@@ -58,15 +58,3 @@ class Author(Base):
         # se não for informada, será o data exata da inserção no banco
         if created_at:
             self.created_at = created_at
-
-    def __repr__(self):
-        """Representação do objeto em formato de string."""
-        return (
-            f"Author(\n"
-            f"first_name: {self.first_name},\n"
-            f"last_name:{self.last_name},\n"
-            f"twitter_username: {self.twitter_username},\n"
-            f"avatar_url: {self.avatar_url},\n"
-            f"created_at: {self.created_at},\n"
-            f")"
-        )
