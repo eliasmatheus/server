@@ -87,11 +87,14 @@ class Article(Base):
         return id_string.lower()
 
     def __repr__(self):
+        """Representação do objeto em formato de string."""
         return (
-            f"Article(id={self.id},"
-            f"title={self.title},"
-            f"subtitle={self.subtitle},"
-            f"author_id={self.author_id},"
-            f"content={self.content},"
-            f"date_posted={self.date_posted})"
+            f"Article(\n"
+            f" id={self.id},\n"
+            f" title={self.title},\n"
+            f" subtitle={self.subtitle},\n"
+            f" author_id={self.author_id},\n"
+            f" content={self.content},\n"
+            f" date_posted={self.date_posted}\n"
+            f")"
         )

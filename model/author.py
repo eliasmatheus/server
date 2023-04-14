@@ -62,9 +62,11 @@ class Author(Base):
     def __repr__(self):
         """Representação do objeto em formato de string."""
         return (
-            f"First Name: {self.first_name}"
-            f"Last Name:{self.last_name} "
-            f"Twitter Username: {self.twitter_username}"
-            f"Avatar URL: {self.avatar_url}"
-            f"Created At: {self.created_at}"
+            f"Author(\n"
+            f"first_name: {self.first_name},\n"
+            f"last_name:{self.last_name},\n"
+            f"twitter_username: {self.twitter_username},\n"
+            f"avatar_url: {self.avatar_url},\n"
+            f"created_at: {self.created_at},\n"
+            f")"
         )
