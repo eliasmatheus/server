@@ -2,6 +2,7 @@ from typing import List
 from pydantic import BaseModel
 
 from model.author import Author
+from schemas import ArticleIDsSchema
 
 
 class AuthorSchema(BaseModel):
@@ -23,7 +24,7 @@ class AuthorSearchSchema(BaseModel):
     A busca é feita pelo ID do autor.
     """
 
-    id: int = "ID do autor"
+    id: int = 1
 
 
 class AuthorListSchema(BaseModel):
@@ -35,13 +36,15 @@ class AuthorListSchema(BaseModel):
 class AuthorUpdateSchema(AuthorSchema):
     """Define a estrutura de um autor retornada no post ou get."""
 
-    id: str = "ID do autor"
+    id: str = 1
 
 
 class AuthorViewSchema(AuthorSchema):
     """Define a estrutura de um autor retornada no post ou get."""
 
-    id: str = "ID do autor"
+    id: str = 1
+    articles_count: int = 1
+    articles: List[ArticleIDsSchema] = ["ID do artigo"]
 
 
 def show_authors(authors: List[Author]) -> dict:
@@ -72,7 +75,7 @@ def show_authors(authors: List[Author]) -> dict:
     return {"authors": result}
 
 
-def show_autor(autor: Author) -> dict:
+def show_author(autor: Author) -> dict:
     """Retorna um autor com a estrutura definida em AuthorViewSchema.
 
     Args:
@@ -90,6 +93,9 @@ def show_autor(autor: Author) -> dict:
         "twitter_username": autor.twitter_username,
         "avatar_url": autor.avatar_url,
         "created_at": autor.created_at,
+        "articles_count": len(autor.articles),
+        "articles": [c.id for c in autor.articles],
+        # "articles": show_articles(autor.articles),
     }
 
 

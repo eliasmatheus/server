@@ -1,6 +1,7 @@
 """Arquivo com a estrutura da classe Article."""
 
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Text
+from sqlalchemy.orm import relationship
 from datetime import datetime
 from typing import Union
 from model import Base
@@ -32,13 +33,15 @@ class Article(Base):
     # Aqui está sendo definido a coluna 'produto' que vai guardar
     # a referencia ao produto, a chave estrangeira que relaciona
     # um produto ao comentário.
-    author = Column(Integer, ForeignKey("authors.pk_author"), nullable=False)
+    author_id = Column(
+        Integer, ForeignKey("authors.pk_author"), nullable=False
+    )
 
     def __init__(
         self,
         title: str,
         subtitle: str,
-        author: str,
+        author_id: int,
         content: str,
         id: str = None,
         date_posted: Union[DateTime, None] = None,
@@ -68,7 +71,7 @@ class Article(Base):
         self.id = id
         self.title = title
         self.subtitle = subtitle
-        self.author = author
+        self.author_id = author_id
         self.content = content
 
         # se não for informada, será o data exata da inserção no banco
@@ -76,10 +79,19 @@ class Article(Base):
             self.date_posted = date_posted
 
     def generate_id(self, title):
-        print(title)
         """Gera um id para o artigo baseado no título."""
         id_string = remove_special_chars(title)
         id_string = replace_spaces(id_string)
         id_string = add_date_prefix(id_string)
         id_string = limit_length(id_string, 50)
         return id_string.lower()
+
+    def __repr__(self):
+        return (
+            f"Article(id={self.id},"
+            f"title={self.title},"
+            f"subtitle={self.subtitle},"
+            f"author_id={self.author_id},"
+            f"content={self.content},"
+            f"date_posted={self.date_posted})"
+        )

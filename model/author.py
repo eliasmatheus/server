@@ -1,6 +1,6 @@
 """Arquivo com a estrutura da classe Article."""
 
-from sqlalchemy import Column, String, DateTime, Text
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from typing import Union
@@ -17,11 +17,11 @@ class Author(Base):
 
     __tablename__ = "authors"
 
-    id = Column("pk_author", String(50), primary_key=True)
+    id = Column("pk_author", Integer, primary_key=True, autoincrement=True)
     first_name = Column(String(40), nullable=False)
     last_name = Column(String(40), nullable=False)
+    avatar_url = Column(String(90))
     twitter_username = Column(String(60))
-    avatar_url = Column(String(90), nullable=False)
     created_at = Column(DateTime, default=datetime.now())
 
     # Definição do relacionamento entre o produto e o comentário.
@@ -45,7 +45,7 @@ class Author(Base):
             first_name (str): Primeiro nome do autor.
             last_name (str): Sobrenome do autor.
             twitter_username (str, optional): Usuário do twitter do autor.
-            avatar_url (str): URL da imagem de avatar do autor.
+            avatar_url (str, optional): URL da imagem de avatar do autor.
 
         Returns:
             None
@@ -58,3 +58,13 @@ class Author(Base):
         # se não for informada, será o data exata da inserção no banco
         if created_at:
             self.created_at = created_at
+
+    def __repr__(self):
+        """Representação do objeto em formato de string."""
+        return (
+            f"First Name: {self.first_name}"
+            f"Last Name:{self.last_name} "
+            f"Twitter Username: {self.twitter_username}"
+            f"Avatar URL: {self.avatar_url}"
+            f"Created At: {self.created_at}"
+        )

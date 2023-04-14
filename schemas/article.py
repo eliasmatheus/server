@@ -13,8 +13,14 @@ class ArticleSchema(BaseModel):
 
     title: str = "Título do artigo"
     subtitle: str = "Subtítulo do artigo"
-    author: str = "Autor do artigo"
+    author_id: int = 1
     content: str = "Conteúdo do artigo"
+
+
+class ArticleIDsSchema(BaseModel):
+    """Define a estrutura para criação de um novo artigo."""
+
+    id: List[str] = ["ID do artigo"]
 
 
 class ArticleSearchSchema(BaseModel):
@@ -64,7 +70,7 @@ def show_articles(articles: List[Article]) -> dict:
                 "id": article.id,
                 "title": article.title,
                 "subtitle": article.subtitle,
-                "author": article.author,
+                "author_id": article.author_id,
                 "content": article.content,
                 "date_posted": article.date_posted,
             }
@@ -88,7 +94,7 @@ def show_article(article: Article) -> dict:
         "id": article.id,
         "title": article.title,
         "subtitle": article.subtitle,
-        "author": article.author,
+        "author_id": article.author_id,
         "content": article.content,
         "date_posted": article.date_posted,
     }
