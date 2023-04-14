@@ -36,12 +36,15 @@ class Author(Base):
         last_name: str,
         twitter_username: str,
         avatar_url: str,
+        id: int = None,
         created_at: Union[DateTime, None] = None,
     ):
         """
         Cadastra um novo autor.
 
         Args:
+            id (int, optional): ID do autor. Se não for especificado, será
+                gerado um ID automaticamente.
             first_name (str): Primeiro nome do autor.
             last_name (str): Sobrenome do autor.
             twitter_username (str, optional): Usuário do twitter do autor.
@@ -50,6 +53,9 @@ class Author(Base):
         Returns:
             None
         """
+        if id:
+            self.id = id
+
         self.first_name = first_name
         self.last_name = last_name
         self.twitter_username = twitter_username

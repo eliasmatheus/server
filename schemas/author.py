@@ -42,12 +42,12 @@ class AuthorViewSchema(AuthorSchema):
     """Define a estrutura de um autor retornada no post ou get."""
 
     id: str = 1
-    articles_count: int = 1
 
 
-class SingleAuthorViewSchema(AuthorViewSchema):
+class AuthorDetailsViewSchema(AuthorViewSchema):
     """Define a estrutura de um autor retornada no post ou get."""
 
+    articles_count: int = 1
     articles: List[str] = ["ID do artigo"]
 
 
@@ -80,6 +80,27 @@ def show_authors(authors: List[Author]) -> dict:
 
 
 def show_author(autor: Author) -> dict:
+    """Retorna um autor com a estrutura definida em AuthorViewSchema.
+
+    Args:
+        autor (Author): Objeto Author.
+
+    Returns:
+        dict: Dicionário contendo um autor com a estrutura definida em
+            AuthorViewSchema.
+
+    """
+    return {
+        "id": autor.id,
+        "first_name": autor.first_name,
+        "last_name": autor.last_name,
+        "twitter_username": autor.twitter_username,
+        "avatar_url": autor.avatar_url,
+        "created_at": autor.created_at,
+    }
+
+
+def show_author_details(autor: Author) -> dict:
     """Retorna um autor com a estrutura definida em AuthorViewSchema.
 
     Args:

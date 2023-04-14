@@ -66,7 +66,7 @@ def return_author_by_id(author_id):
         logger.debug(f"Autor com ID: #{author_id} encontrado com sucesso")
         # retorna a representação de autores
         print(author)
-        return show_author(author), 200
+        return show_author_details(author), 200
 
 
 def add_author(form: AuthorSchema):
@@ -132,32 +132,32 @@ def edit_author(form: AuthorUpdateSchema):
 
     try:
         # edita os valores do autor
-        old_author.title = author.title
-        old_author.subtitle = author.subtitle
-        old_author.author = author.author
-        old_author.content = author.content
+        old_author.first_name = author.first_name
+        old_author.last_name = author.last_name
+        old_author.avatar_url = author.avatar_url
+        old_author.twitter_username = author.twitter_username
 
         # efetivando o comando de edição do autor na tabela
         session.commit()
-        logger.debug(f"Editado autor de ID: '{author.title}'")
+        logger.debug(f"Editado autor de ID: '{old_author.id}'")
 
         return show_author(author), 200
 
-    except IntegrityError as e:
-        # como a duplicidade do título é a provável razão do IntegrityError
-        error_msg = "Autor de mesmo título já salvo na base :/"
-        log_error_msg = (
-            f"Erro ao adicionar autor '{author.title}', {error_msg}"
-        )
-        logger.warning(log_error_msg)
+    # except IntegrityError as e:
+    #     # como a duplicidade do título é a provável razão do IntegrityError
+    #     error_msg = "Autor de mesmo título já salvo na base :/"
+    #     log_error_msg = (
+    #         f"Erro ao adicionar autor '{old_author.id}', {error_msg}"
+    #     )
+    #     logger.warning(log_error_msg)
 
-        return {"message": error_msg}, 409
+    #     return {"message": error_msg}, 409
 
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo autor :/"
         log_error_msg = (
-            f"Erro ao adicionar autor '{author.title}', {error_msg}"
+            f"Erro ao adicionar autor '{old_author.id}', {error_msg}"
         )
         logger.warning(log_error_msg)
 

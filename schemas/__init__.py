@@ -4,9 +4,11 @@ from schemas.author import (
     AuthorListSchema,
     AuthorUpdateSchema,
     AuthorViewSchema,
+    AuthorDetailsViewSchema,
     AuthorDeletionSchema,
     show_authors,
     show_author,
+    show_author_details,
 )
 
 from schemas.article import (
@@ -15,7 +17,7 @@ from schemas.article import (
     ArticleSearchSchema,
     ArticleListSchema,
     ArticleViewSchema,
-    SingleArticleViewSchema,
+    ArticleDetailsViewSchema,
     ArticleDeletionSchema,
     ArticleUpdateSchema,
     show_article,

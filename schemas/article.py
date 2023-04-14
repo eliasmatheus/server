@@ -18,6 +18,14 @@ class ArticleSchema(BaseModel):
     content: str = "Conteúdo do artigo"
 
 
+class ArticlePreviewSchema(BaseModel):
+    """Define a estrutura de preview de um artigo."""
+
+    title: str = "Título do artigo"
+    subtitle: str = "Subtítulo do artigo"
+    author_id: int = 1
+
+
 class ArticleIDsSchema(BaseModel):
     """Define a estrutura para criação de um novo artigo."""
 
@@ -36,7 +44,7 @@ class ArticleSearchSchema(BaseModel):
 class ArticleListSchema(BaseModel):
     """Define a estrutura que representa a lista de artigos."""
 
-    articles: List[ArticleSchema]
+    articles: List[ArticlePreviewSchema]
 
 
 class ArticleUpdateSchema(ArticleSchema):
@@ -52,7 +60,7 @@ class ArticleViewSchema(ArticleSchema):
     date_posted: str = "Data de postagem do artigo"
 
 
-class SingleArticleViewSchema(BaseModel):
+class ArticleDetailsViewSchema(BaseModel):
     """Define a estrutura de um artigo retornada no post ou get."""
 
     id: str = "ID do artigo"
@@ -82,7 +90,6 @@ def show_articles(articles: List[Article]) -> dict:
                 "title": article.title,
                 "subtitle": article.subtitle,
                 "author_id": article.author_id,
-                "content": article.content,
                 "date_posted": article.date_posted,
             }
         )
