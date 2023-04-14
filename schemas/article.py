@@ -110,6 +110,7 @@ def show_article(article: Article) -> dict:
             "first_name": article.author.first_name,
             "last_name": article.author.last_name,
             # "email": article.author.email,
+            "avatar_url": article.author.avatar_url,
             "twitter_username": article.author.twitter_username,
         },
         "content": article.content,
