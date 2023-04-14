@@ -1,10 +1,10 @@
 """Arquivo com a estrutura da classe Article."""
 
-from sqlalchemy import Column, String, DateTime, Text
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Text
 from datetime import datetime
 from typing import Union
 from model import Base
-from utils.strings import (
+from shared.utils.strings import (
     add_date_prefix,
     limit_length,
     remove_special_chars,
@@ -25,9 +25,14 @@ class Article(Base):
     id = Column(String(50), primary_key=True)
     title = Column(String(90), unique=True)
     subtitle = Column(String(200), nullable=False)
-    author = Column(String(50), nullable=False)
     date_posted = Column(DateTime, default=datetime.now())
     content = Column(Text, nullable=False)
+
+    # Definição do relacionamento entre o comentário e um produto.
+    # Aqui está sendo definido a coluna 'produto' que vai guardar
+    # a referencia ao produto, a chave estrangeira que relaciona
+    # um produto ao comentário.
+    author = Column(Integer, ForeignKey("authors.pk_author"), nullable=False)
 
     def __init__(
         self,
