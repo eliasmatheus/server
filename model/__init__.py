@@ -6,6 +6,7 @@ import os
 # importando os elementos definidos no modelo
 from model.base import Base
 from model.article import Article
+from model.author import Author
 
 db_path = "database/"
 # Verifica se o diretório não existe
