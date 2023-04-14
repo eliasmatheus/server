@@ -40,7 +40,7 @@ def get_author_by_id(author_id):
     # criando conexão com a base
     session = Session()
 
-    # fazendo a busca
+    # faz a busca pelo autor
     return session.query(Author).filter(Author.id == author_id).one_or_none()
 
 
@@ -50,7 +50,7 @@ def return_author_by_id(author_id):
     Retorna uma representação do autor.
     """
 
-    # fazendo a busca
+    # faz a busca pelo autor
     author = get_author_by_id(author_id)
 
     if not author:
@@ -124,44 +124,46 @@ def edit_author(form: AuthorUpdateSchema):
     # criando conexão com a base
     session = Session()
 
-    # fazendo a busca
     author_id = form.id
-    old_author = session.query(Author).filter(Author.id == author_id).first()
+    # fazendo a busca
+    old_author = (
+        session.query(Author).filter(Author.id == author_id).one_or_none()
+    )
 
-    logger.debug(f"Editando autor de ID: '{old_author.id}'")
-
-    try:
-        # edita os valores do autor
-        old_author.first_name = author.first_name
-        old_author.last_name = author.last_name
-        old_author.avatar_url = author.avatar_url
-        old_author.twitter_username = author.twitter_username
-
-        # efetivando o comando de edição do autor na tabela
-        session.commit()
-        logger.debug(f"Editado autor de ID: '{old_author.id}'")
-
-        return show_author(author), 200
-
-    # except IntegrityError as e:
-    #     # como a duplicidade do título é a provável razão do IntegrityError
-    #     error_msg = "Autor de mesmo título já salvo na base :/"
-    #     log_error_msg = (
-    #         f"Erro ao adicionar autor '{old_author.id}', {error_msg}"
-    #     )
-    #     logger.warning(log_error_msg)
-
-    #     return {"message": error_msg}, 409
-
-    except Exception as e:
-        # caso um erro fora do previsto
-        error_msg = "Não foi possível salvar novo autor :/"
+    if not old_author:
+        # se o autor não foi encontrado
+        error_msg = "Autor não encontrado na base :/"
         log_error_msg = (
-            f"Erro ao adicionar autor '{old_author.id}', {error_msg}"
+            f"Erro ao buscar autor com ID: #'{author_id}', {error_msg}"
         )
-        logger.warning(log_error_msg)
 
-        return {"message": error_msg}, 400
+        logger.warning(log_error_msg)
+        return {"message": error_msg}, 404
+    else:
+        logger.debug(f"Editando autor de ID: '{old_author.id}'")
+
+        try:
+            # edita os valores do autor
+            old_author.first_name = author.first_name
+            old_author.last_name = author.last_name
+            old_author.avatar_url = author.avatar_url
+            old_author.twitter_username = author.twitter_username
+
+            # efetivando o comando de edição do autor na tabela
+            session.commit()
+            logger.debug(f"Editado autor de ID: '{old_author.id}'")
+
+            return show_author(author), 200
+
+        except Exception as e:
+            # caso um erro fora do previsto
+            error_msg = "Não foi possível salvar autor :/"
+            log_error_msg = (
+                f"Erro ao editar autor '{old_author.id}', {error_msg}"
+            )
+            logger.warning(log_error_msg)
+
+            return {"message": error_msg}, 400
 
 
 def delete_author_by_id(path: AuthorSearchSchema):

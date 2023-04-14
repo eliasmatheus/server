@@ -10,7 +10,7 @@ from flask_cors import CORS
 
 from services import *
 
-info = Info(title="Flask + React Blog", version="1.0.0")
+info = Info(title="Code Chronicles API", version="1.0.0")
 app = OpenAPI(__name__, info=info)
 CORS(app)
 
