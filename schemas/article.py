@@ -60,13 +60,9 @@ class ArticleViewSchema(ArticleSchema):
     date_posted: str = "Data de postagem do artigo"
 
 
-class ArticleDetailsViewSchema(BaseModel):
+class ArticleDetailsViewSchema(ArticleViewSchema):
     """Define a estrutura de um artigo retornada no post ou get."""
 
-    id: str = "ID do artigo"
-    title: str = "Título do artigo"
-    subtitle: str = "Subtítulo do artigo"
-    content: str = "Conteúdo do artigo"
     author: AuthorViewSchema = AuthorViewSchema()
 
 
@@ -112,6 +108,7 @@ def show_article(article: Article) -> dict:
         "id": article.id,
         "title": article.title,
         "subtitle": article.subtitle,
+        "author_id": article.author_id,
         "author": {
             "id": article.author.id,
             "first_name": article.author.first_name,

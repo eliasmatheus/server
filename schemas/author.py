@@ -42,6 +42,7 @@ class AuthorViewSchema(AuthorSchema):
     """Define a estrutura de um autor retornada no post ou get."""
 
     id: str = 1
+    articles_count: int = 1
 
 
 class AuthorDetailsViewSchema(AuthorViewSchema):
@@ -71,6 +72,7 @@ def show_authors(authors: List[Author]) -> dict:
                 "first_name": autor.first_name,
                 "last_name": autor.last_name,
                 "twitter_username": autor.twitter_username,
+                "articles_count": len(autor.articles),
                 "avatar_url": autor.avatar_url,
                 "created_at": autor.created_at,
             }
