@@ -57,7 +57,7 @@ def get_articles():
     tags=[article_tag],
     responses={"200": ArticleViewSchema, "404": ErrorSchema},
 )
-def get_article(path: ArticleSearchSchema):
+def get_article(path: SingleArticleViewSchema):
     """Busca um artigo específico à partir do id.
 
     Retorna uma representação do artigo.

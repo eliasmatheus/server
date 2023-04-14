@@ -2,6 +2,7 @@ from typing import List
 from pydantic import BaseModel
 
 from model.article import Article
+from schemas import AuthorViewSchema
 
 
 class ArticleSchema(BaseModel):
@@ -51,6 +52,16 @@ class ArticleViewSchema(ArticleSchema):
     date_posted: str = "Data de postagem do artigo"
 
 
+class SingleArticleViewSchema(BaseModel):
+    """Define a estrutura de um artigo retornada no post ou get."""
+
+    id: str = "ID do artigo"
+    title: str = "Título do artigo"
+    subtitle: str = "Subtítulo do artigo"
+    content: str = "Conteúdo do artigo"
+    author: AuthorViewSchema = AuthorViewSchema()
+
+
 def show_articles(articles: List[Article]) -> dict:
     """Retorna uma lista de artigos com a estrutura definida em
         ArticleViewSchema.
@@ -94,7 +105,13 @@ def show_article(article: Article) -> dict:
         "id": article.id,
         "title": article.title,
         "subtitle": article.subtitle,
-        "author_id": article.author_id,
+        "author": {
+            "id": article.author.id,
+            "first_name": article.author.first_name,
+            "last_name": article.author.last_name,
+            # "email": article.author.email,
+            "twitter_username": article.author.twitter_username,
+        },
         "content": article.content,
         "date_posted": article.date_posted,
     }

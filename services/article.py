@@ -1,6 +1,6 @@
 from sqlalchemy.exc import IntegrityError
 from logger import logger
-from model import Session, Article
+from model import Session, Article, Author
 
 from schemas import *
 from services.author import get_author_by_id, return_author_by_id
@@ -44,7 +44,10 @@ def get_article_by_id(path: ArticleSearchSchema):
 
     # fazendo a busca
     article = (
-        session.query(Article).filter(Article.id == article_id).one_or_none()
+        session.query(Article)
+        .join(Author)
+        .filter(Article.id == article_id)
+        .one_or_none()
     )
 
     if not article:

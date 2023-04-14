@@ -2,7 +2,6 @@ from typing import List
 from pydantic import BaseModel
 
 from model.author import Author
-from schemas import ArticleIDsSchema
 
 
 class AuthorSchema(BaseModel):
@@ -44,7 +43,12 @@ class AuthorViewSchema(AuthorSchema):
 
     id: str = 1
     articles_count: int = 1
-    articles: List[ArticleIDsSchema] = ["ID do artigo"]
+
+
+class SingleAuthorViewSchema(AuthorViewSchema):
+    """Define a estrutura de um autor retornada no post ou get."""
+
+    articles: List[str] = ["ID do artigo"]
 
 
 def show_authors(authors: List[Author]) -> dict:

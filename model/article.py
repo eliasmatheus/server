@@ -36,6 +36,7 @@ class Article(Base):
     author_id = Column(
         Integer, ForeignKey("authors.pk_author"), nullable=False
     )
+    author = relationship("Author", foreign_keys="Article.author_id")
 
     def __init__(
         self,
