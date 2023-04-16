@@ -1,4 +1,4 @@
-from schemas.article import (
+from .article import (
     ArticleSchema,
     ArticleIDsSchema,
     ArticleSearchSchema,
@@ -10,6 +10,3 @@ from schemas.article import (
     show_article,
     show_articles,
 )
-
-
-from schemas.error import ErrorSchema

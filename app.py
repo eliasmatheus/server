@@ -1,17 +1,15 @@
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect
 
-from sqlalchemy.exc import IntegrityError
-
-from schemas import *
-from services import *
-from routes import *
 from flask_cors import CORS
 
 from modules.author import author_bp
+from modules.article import article_bp
 
 info = Info(title="Code Chronicles API", version="1.0.0")
 app = OpenAPI(__name__, info=info)
+
+# inicializando CORS
 CORS(app)
 
 # definindo tags

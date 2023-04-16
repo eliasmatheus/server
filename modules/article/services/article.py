@@ -1,16 +1,11 @@
 from sqlalchemy.exc import IntegrityError
 from logger import logger
-from model import Session, Article
-from modules.author.models.author import Author
-from schemas.article import (
-    ArticleSchema,
-    ArticleSearchSchema,
-    ArticleUpdateSchema,
-    show_article,
-    show_articles,
-)
+from shared.models import Session
 
-# from schemas import *
+from modules.author import Author
+
+from ..models import Article
+from ..schemas import *
 
 
 def get_all_articles():

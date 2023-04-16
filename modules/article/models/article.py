@@ -4,13 +4,8 @@ from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Text
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from typing import Union
-from model import Base
-from shared.utils.strings import (
-    add_date_prefix,
-    limit_length,
-    remove_special_chars,
-    replace_spaces,
-)
+from shared.models import Base
+from shared.utils import *
 
 
 class Article(Base):

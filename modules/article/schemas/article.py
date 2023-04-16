@@ -1,7 +1,7 @@
 from typing import List
 from pydantic import BaseModel
 
-from model.article import Article
+from ..models import Article
 from modules.author import AuthorViewSchema
 
 
