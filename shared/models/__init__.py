@@ -5,12 +5,15 @@ from sqlalchemy.engine import Engine
 import os
 
 # importando os elementos definidos no modelo
-from shared.models.base import Base
-from model.article import Article
+from .base import Base
+
+# from model.article import Article
+# from model.author import Author
 
 
 @event.listens_for(Engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):
+    """Ativa o suporte a foreign keys no sqlite3."""
     cursor = dbapi_connection.cursor()
     cursor.execute("PRAGMA foreign_keys=ON")
     cursor.close()

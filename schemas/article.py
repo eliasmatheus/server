@@ -2,7 +2,7 @@ from typing import List
 from pydantic import BaseModel
 
 from model.article import Article
-from schemas import AuthorViewSchema
+from modules.author import AuthorViewSchema
 
 
 class ArticleSchema(BaseModel):

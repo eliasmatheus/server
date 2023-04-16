@@ -1,7 +1,7 @@
 from typing import List
 from pydantic import BaseModel
 
-from model.author import Author
+from ..models import Author
 
 
 class AuthorSchema(BaseModel):

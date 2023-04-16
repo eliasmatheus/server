@@ -1,9 +1,16 @@
 from sqlalchemy.exc import IntegrityError
 from logger import logger
-from model import Session, Article, Author
+from model import Session, Article
+from modules.author.models.author import Author
+from schemas.article import (
+    ArticleSchema,
+    ArticleSearchSchema,
+    ArticleUpdateSchema,
+    show_article,
+    show_articles,
+)
 
-from schemas import *
-from services.author import get_author_by_id, return_author_by_id
+# from schemas import *
 
 
 def get_all_articles():
@@ -79,18 +86,6 @@ def add_article(form: ArticleSchema):
 
     logger.debug(f"Adicionando artigo com título: '{article.title}'")
 
-    # author = get_author_by_id(author_id)
-
-    # if not author:
-    #     # se o autor não foi encontrado
-    #     error_msg = "Autor não encontrado na base :/"
-    #     log_error_msg = (
-    #         f"Erro ao buscar autor com ID: #'{author_id}', {error_msg}"
-    #     )
-
-    #     logger.warning(log_error_msg)
-    #     return {"message": error_msg}, 404
-    # else:
     try:
         # criando conexão com a base
         session = Session()

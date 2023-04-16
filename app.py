@@ -8,7 +8,7 @@ from services import *
 from routes import *
 from flask_cors import CORS
 
-from services import *
+from modules.author import author_bp
 
 info = Info(title="Code Chronicles API", version="1.0.0")
 app = OpenAPI(__name__, info=info)
