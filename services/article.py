@@ -79,33 +79,38 @@ def add_article(form: ArticleSchema):
 
     logger.debug(f"Adicionando artigo com título: '{article.title}'")
 
-    author = get_author_by_id(author_id)
+    # author = get_author_by_id(author_id)
 
-    if not author:
-        # se o autor não foi encontrado
-        error_msg = "Autor não encontrado na base :/"
-        log_error_msg = (
-            f"Erro ao buscar autor com ID: #'{author_id}', {error_msg}"
+    # if not author:
+    #     # se o autor não foi encontrado
+    #     error_msg = "Autor não encontrado na base :/"
+    #     log_error_msg = (
+    #         f"Erro ao buscar autor com ID: #'{author_id}', {error_msg}"
+    #     )
+
+    #     logger.warning(log_error_msg)
+    #     return {"message": error_msg}, 404
+    # else:
+    try:
+        # criando conexão com a base
+        session = Session()
+        # adicionando artigo
+        session.add(article)
+        # efetivando o comando de adição de novo artigo na tabela
+        session.commit()
+
+        logger.debug(f"Adicionado artigo com título: '{article.title}'")
+
+        return show_article(article), 200
+
+    except IntegrityError as e:
+        invalid_author = (
+            "(sqlite3.IntegrityError) FOREIGN KEY constraint failed"
         )
 
-        logger.warning(log_error_msg)
-        return {"message": error_msg}, 404
-    else:
-        try:
-            # criando conexão com a base
-            session = Session()
-            # adicionando artigo
-            session.add(article)
-            # efetivando o comando de adição de novo artigo na tabela
-            session.commit()
-
-            logger.debug(f"Adicionado artigo com título: '{article.title}'")
-
-            return show_article(article), 200
-
-        except IntegrityError as e:
-            # como a duplicidade do título é a provável razão do IntegrityError
-            error_msg = "Artigo de mesmo título já salvo na base :/"
+        # caso o autor não exista, teremos um erro de FOREIGN KEY constraint
+        if e.args[0] == invalid_author:
+            error_msg = "Autor não encontrado :/"
             log_error_msg = (
                 f"Erro ao adicionar artigo '{article.title}', {error_msg}"
             )
@@ -113,15 +118,24 @@ def add_article(form: ArticleSchema):
 
             return {"message": error_msg}, 409
 
-        except Exception as e:
-            # caso um erro fora do previsto
-            error_msg = "Não foi possível salvar novo artigo :/"
-            log_error_msg = (
-                f"Erro ao adicionar artigo '{article.title}', {error_msg}"
-            )
-            logger.warning(log_error_msg)
+        # como a duplicidade do título é a provável razão do IntegrityError
+        error_msg = "Artigo de mesmo título já salvo na base :/"
+        log_error_msg = (
+            f"Erro ao adicionar artigo '{article.title}', {error_msg}"
+        )
+        logger.warning(log_error_msg)
 
-            return {"message": error_msg}, 400
+        return {"message": error_msg}, 409
+
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível salvar novo artigo :/"
+        log_error_msg = (
+            f"Erro ao adicionar artigo '{article.title}', {error_msg}"
+        )
+        logger.warning(log_error_msg)
+
+        return {"message": error_msg}, 400
 
 
 def edit_article(form: ArticleUpdateSchema):
