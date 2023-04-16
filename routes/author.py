@@ -76,7 +76,11 @@ def put_author(form: AuthorUpdateSchema):
 @author_bp.delete(
     "/author/<int:id>",
     tags=[author_tag],
-    responses={"200": AuthorDeletionSchema, "404": ErrorSchema},
+    responses={
+        "200": AuthorDeletionSchema,
+        "404": ErrorSchema,
+        "400": ErrorSchema,
+    },
 )
 def delete_author(path: AuthorSearchSchema):
     """Remove um author à partir do id informado.

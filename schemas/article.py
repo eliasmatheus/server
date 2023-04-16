@@ -21,9 +21,11 @@ class ArticleSchema(BaseModel):
 class ArticlePreviewSchema(BaseModel):
     """Define a estrutura de preview de um artigo."""
 
+    id: str = "ID do artigo"
     title: str = "Título do artigo"
     subtitle: str = "Subtítulo do artigo"
     author_id: int = 1
+    date_posted: str = "Data de postagem do artigo"
 
 
 class ArticleIDsSchema(BaseModel):
@@ -41,12 +43,6 @@ class ArticleSearchSchema(BaseModel):
     id: str = "ID do artigo"
 
 
-class ArticleListSchema(BaseModel):
-    """Define a estrutura que representa a lista de artigos."""
-
-    articles: List[ArticlePreviewSchema]
-
-
 class ArticleUpdateSchema(ArticleSchema):
     """Define a estrutura de um artigo retornada no post ou get."""
 
@@ -57,7 +53,14 @@ class ArticleViewSchema(ArticleSchema):
     """Define a estrutura de um artigo retornada no post ou get."""
 
     id: str = "ID do artigo"
+    content: str = "Conteúdo do artigo"
     date_posted: str = "Data de postagem do artigo"
+
+
+class ArticleListSchema(BaseModel):
+    """Define a estrutura que representa a lista de artigos."""
+
+    articles: List[ArticlePreviewSchema]
 
 
 class ArticleDetailsViewSchema(ArticleViewSchema):
@@ -78,6 +81,7 @@ def show_articles(articles: List[Article]) -> dict:
             definida em ArticleViewSchema.
 
     """
+
     result = []
     for article in articles:
         result.append(

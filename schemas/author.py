@@ -13,6 +13,7 @@ class AuthorSchema(BaseModel):
 
     first_name: str = "John"
     last_name: str = "Doe"
+    email: str = "johndoe@example.com"
     twitter_username: str = "johndoe"
     avatar_url: str = "https://example.com/avatar.png"
 
@@ -71,6 +72,7 @@ def show_authors(authors: List[Author]) -> dict:
                 "id": autor.id,
                 "first_name": autor.first_name,
                 "last_name": autor.last_name,
+                "email": autor.email,
                 "twitter_username": autor.twitter_username,
                 "articles_count": len(autor.articles),
                 "avatar_url": autor.avatar_url,
@@ -96,6 +98,7 @@ def show_author(autor: Author) -> dict:
         "id": autor.id,
         "first_name": autor.first_name,
         "last_name": autor.last_name,
+        "email": autor.email,
         "twitter_username": autor.twitter_username,
         "avatar_url": autor.avatar_url,
         "created_at": autor.created_at,
@@ -117,6 +120,7 @@ def show_author_details(autor: Author) -> dict:
         "id": autor.id,
         "first_name": autor.first_name,
         "last_name": autor.last_name,
+        "email": autor.email,
         "twitter_username": autor.twitter_username,
         "avatar_url": autor.avatar_url,
         "created_at": autor.created_at,

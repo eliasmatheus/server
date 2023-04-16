@@ -93,8 +93,8 @@ def add_author(form: AuthorSchema):
         return show_author(author), 200
 
     except IntegrityError as e:
-        # como a duplicidade do título é a provável razão do IntegrityError
-        error_msg = "Autor de mesmo título já salvo na base :/"
+        # como a duplicidade do email é a provável razão do IntegrityError
+        error_msg = "Autor com mesmo email já salvo na base :/"
         log_error_msg = (
             f"Erro ao adicionar autor '{author.first_name}', {error_msg}"
         )
@@ -174,7 +174,7 @@ def delete_author_by_id(path: AuthorSearchSchema):
     author_id = path.id
 
     print(author_id)
-    logger.debug(f"Removendo autor com ID: #{author_id}")
+    logger.debug(f"Excluindo autor com ID: #{author_id}")
 
     # criando conexão com a base
     session = Session()
@@ -186,7 +186,7 @@ def delete_author_by_id(path: AuthorSearchSchema):
     if count:
         # retorna a representação da mensagem de confirmação
         logger.debug(f"Autor com ID: #{author_id} excluído com sucesso")
-        return {"message": "Autor removido", "id": author_id}
+        return {"message": "Autor e seus artigos excluídos", "id": author_id}
     else:
         # se o autor não foi encontrado
         error_msg = "Autor não encontrado na base :/"

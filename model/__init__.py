@@ -1,12 +1,21 @@
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, event
+from sqlalchemy.engine import Engine
 import os
 
 # importando os elementos definidos no modelo
 from model.base import Base
 from model.article import Article
 from model.author import Author
+
+
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
+
 
 db_path = "database/"
 # Verifica se o diretório não existe

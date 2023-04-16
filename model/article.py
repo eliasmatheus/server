@@ -34,9 +34,11 @@ class Article(Base):
     # a referencia ao produto, a chave estrangeira que relaciona
     # um produto ao comentário.
     author_id = Column(
-        Integer, ForeignKey("authors.pk_author"), nullable=False
+        Integer, ForeignKey("authors.pk_author", ondelete="CASCADE")
     )
-    author = relationship("Author", foreign_keys="Article.author_id")
+    author = relationship(
+        "Author", foreign_keys="Article.author_id", back_populates="articles"
+    )
 
     def __init__(
         self,
