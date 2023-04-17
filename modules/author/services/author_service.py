@@ -1,11 +1,8 @@
 from sqlalchemy.exc import IntegrityError
 from logger import logger
-from models import Author
+
+from models import Author, Session
 from ..schemas import *
-
-from models import Session
-
-# from models import Session
 
 
 def get_all_authors():
@@ -19,8 +16,6 @@ def get_all_authors():
     session = Session()
     # fazendo a busca
     authors = session.query(Author).all()
-
-    print(authors)
 
     if not authors:
         # se não há autores cadastrados
@@ -70,8 +65,6 @@ def add_author(form: AuthorSchema):
     """
     author = Author(**form.dict())
 
-    print(author)
-
     logger.debug(f"Adicionando autor com título: '{author.first_name}'")
 
     try:
@@ -114,6 +107,9 @@ def edit_author(form: AuthorUpdateSchema):
     Retorna uma representação dos autores.
     """
     author = Author(**form.dict())
+
+    # evitando que o id seja alterado para string
+    author.id = int(form.id)
 
     # criando conexão com a base
     session = Session()
@@ -167,7 +163,6 @@ def delete_author_by_id(path: AuthorSearchSchema):
     """
     author_id = path.id
 
-    print(author_id)
     logger.debug(f"Excluindo autor com ID: #{author_id}")
 
     # criando conexão com a base
@@ -180,7 +175,10 @@ def delete_author_by_id(path: AuthorSearchSchema):
     if count:
         # retorna a representação da mensagem de confirmação
         logger.debug(f"Autor com ID: #{author_id} excluído com sucesso")
-        return {"message": "Autor e seus artigos excluídos", "id": author_id}
+        return {
+            "message": "Autor e seus artigos excluídos com sucesso",
+            "id": author_id,
+        }
     else:
         # se o autor não foi encontrado
         error_msg = "Autor não encontrado na base :/"

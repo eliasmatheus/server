@@ -26,6 +26,20 @@ def get_authors():
     return get_all_authors()
 
 
+@author_bp.get(
+    "/author/<int:id>",
+    tags=[author_tag],
+    responses={"200": AuthorDetailsViewSchema, "404": ErrorSchema},
+)
+def get_author(path: AuthorSearchSchema):
+    """Busca um autor específico à partir do id.
+
+    Retorna uma representação do autor.
+    """
+
+    return return_author_by_id(path)
+
+
 @author_bp.post(
     "/author",
     tags=[author_tag],
@@ -41,20 +55,6 @@ def post_author(form: AuthorSchema):
     Retorna uma representação dos autores.
     """
     return add_author(form)
-
-
-@author_bp.get(
-    "/author/<int:id>",
-    tags=[author_tag],
-    responses={"200": AuthorDetailsViewSchema, "404": ErrorSchema},
-)
-def get_author(path: AuthorSearchSchema):
-    """Busca um autor específico à partir do id.
-
-    Retorna uma representação do autor.
-    """
-
-    return return_author_by_id(path)
 
 
 @author_bp.put(

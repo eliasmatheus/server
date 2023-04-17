@@ -1,10 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from logger import logger
 
-from models import Session
-
-
-from models import Article, Author
+from models import Article, Author, Session
 from ..schemas import *
 
 
@@ -19,8 +16,6 @@ def get_all_articles():
     session = Session()
     # fazendo a busca
     articles = session.query(Article).all()
-
-    print(articles)
 
     if not articles:
         # se não há artigos cadastrados
@@ -65,7 +60,7 @@ def get_article_by_id(path: ArticleSearchSchema):
         logger.debug(f"Artigo com ID: #{article_id} encontrado com sucesso")
         # retorna a representação de artigos
         print(article)
-        return show_article(article), 200
+        return show_article_details(article), 200
 
 
 def add_article(form: ArticleSchema):
@@ -73,11 +68,7 @@ def add_article(form: ArticleSchema):
 
     Retorna uma representação dos artigos.
     """
-    author_id = form.author_id
-
     article = Article(**form.dict())
-
-    print(article)
 
     logger.debug(f"Adicionando artigo com título: '{article.title}'")
 
@@ -91,7 +82,7 @@ def add_article(form: ArticleSchema):
 
         logger.debug(f"Adicionado artigo com título: '{article.title}'")
 
-        return show_article(article), 200
+        return show_article_details(article), 200
 
     except IntegrityError as e:
         invalid_author = (
@@ -144,6 +135,8 @@ def edit_article(form: ArticleUpdateSchema):
         session.query(Article).filter(Article.id == article_id).first()
     )
 
+    print(old_article)
+
     logger.debug(f"Editando artigo de ID: '{old_article.id}'")
 
     try:
@@ -157,7 +150,15 @@ def edit_article(form: ArticleUpdateSchema):
         session.commit()
         logger.debug(f"Editado artigo de ID: '{article.title}'")
 
-        return show_article(article), 200
+        # fazendo a busca
+        article = (
+            session.query(Article)
+            .join(Author)
+            .filter(Article.id == article_id)
+            .one_or_none()
+        )
+
+        return show_article_details(article), 200
 
     except IntegrityError as e:
         # como a duplicidade do título é a provável razão do IntegrityError
@@ -187,7 +188,6 @@ def delete_article_by_id(path: ArticleSearchSchema):
     """
     article_id = path.id
 
-    print(article_id)
     logger.debug(f"Removendo artigo com ID: #{article_id}")
 
     # criando conexão com a base

@@ -7,6 +7,7 @@ from .article import (
     ArticleDetailsViewSchema,
     ArticleDeletionSchema,
     ArticleUpdateSchema,
-    show_article,
     show_articles,
+    show_article,
+    show_article_details,
 )

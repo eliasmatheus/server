@@ -2,7 +2,6 @@ from flask_openapi3 import Tag, APIBlueprint
 
 from ..schemas import *
 from ..services import *
-
 from shared.schemas import ErrorSchema
 
 

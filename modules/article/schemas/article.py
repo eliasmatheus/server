@@ -69,6 +69,16 @@ class ArticleDetailsViewSchema(ArticleViewSchema):
     author: AuthorViewSchema = AuthorViewSchema()
 
 
+class ArticleDeletionSchema(BaseModel):
+    """Define a estrutura para remoção de um artigo no banco.
+
+    A busca é feita pelo ID do artigo.
+    """
+
+    message: str
+    id: str
+
+
 def show_articles(articles: List[Article]) -> dict:
     """Retorna uma lista de artigos com a estrutura definida em
         ArticleViewSchema.
@@ -83,6 +93,7 @@ def show_articles(articles: List[Article]) -> dict:
     """
 
     result = []
+
     for article in articles:
         result.append(
             {
@@ -97,7 +108,7 @@ def show_articles(articles: List[Article]) -> dict:
     return {"articles": result}
 
 
-def show_article(article: Article) -> dict:
+def show_article_details(article: Article) -> dict:
     """Retorna um artigo com a estrutura definida em ArticleViewSchema.
 
     Args:
@@ -126,11 +137,22 @@ def show_article(article: Article) -> dict:
     }
 
 
-class ArticleDeletionSchema(BaseModel):
-    """Define a estrutura para remoção de um artigo no banco.
+def show_article(article: Article) -> dict:
+    """Retorna um artigo com a estrutura definida em ArticleViewSchema.
 
-    A busca é feita pelo ID do artigo.
+    Args:
+        article (Article): Objeto Article.
+
+    Returns:
+        dict: Dicionário contendo um artigo com a estrutura definida em
+            ArticleViewSchema.
+
     """
-
-    message: str
-    id: str
+    return {
+        "id": article.id,
+        "title": article.title,
+        "subtitle": article.subtitle,
+        "author_id": article.author_id,
+        "content": article.content,
+        "date_posted": article.date_posted,
+    }
