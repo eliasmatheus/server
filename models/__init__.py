@@ -2,12 +2,12 @@ from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, event
 from sqlalchemy.engine import Engine
-from config import DATABASE_URI
 import os
 
-
 # importando os elementos definidos no modelo
-from shared.models.base import Base
+from .base import Base
+from models.article import Article
+from models.author import Author
 
 
 @event.listens_for(Engine, "connect")
@@ -18,7 +18,19 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.close()
 
 
-db_url = os.getenv("DB_URL", DATABASE_URI)
+# define o caminho do banco
+db_path = "database/"
+
+# Verifica se o diretório não existe
+if not os.path.exists(db_path):
+    # então cria o diretório
+    os.makedirs(db_path)
+
+# url de acesso ao banco (essa é uma url de acesso ao sqlite local)
+db_url = "sqlite:///%s/db.sqlite3" % db_path
+
+# verifica se a variável de ambiente DB_URL existe
+db_url = os.getenv("DB_URL", db_url)
 
 
 # cria a engine de conexão com o banco

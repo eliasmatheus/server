@@ -1,9 +1,11 @@
 from sqlalchemy.exc import IntegrityError
 from logger import logger
-from modules.author.models.author import Author
+from models import Author
 from ..schemas import *
 
-from database import Session
+from models import Session
+
+# from models import Session
 
 
 def get_all_authors():
@@ -30,11 +32,12 @@ def get_all_authors():
         return show_authors(authors), 200
 
 
-def get_author_by_id(author_id):
+def return_author_by_id(path: AuthorSearchSchema):
     """Busca um autor específico à partir do id.
 
     Retorna uma representação do autor.
     """
+    author_id = path.id
 
     logger.debug(f"Coletando autor com ID: {author_id} ")
 
@@ -42,17 +45,7 @@ def get_author_by_id(author_id):
     session = Session()
 
     # faz a busca pelo autor
-    return session.query(Author).filter(Author.id == author_id).one_or_none()
-
-
-def return_author_by_id(author_id):
-    """Busca um autor específico à partir do id.
-
-    Retorna uma representação do autor.
-    """
-
-    # faz a busca pelo autor
-    author = get_author_by_id(author_id)
+    author = session.query(Author).filter(Author.id == author_id).one_or_none()
 
     if not author:
         # se o autor não foi encontrado

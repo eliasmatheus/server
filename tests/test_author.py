@@ -1,17 +1,24 @@
 from flask import Flask
 from flask_testing import TestCase
-from database import Session
-from modules.author.models.author import Author
-from modules.author.routes import author_bp
-from modules.author.schemas import AuthorSchema
-from logger import logger
 import os
+
+from modules.author import author_bp
+from models import Author
+
+# from modules.author.schemas import AuthorSchema
+
+
+# from models import Session
+
+from models import Session
 
 
 class TestAuthor(TestCase):
     def create_app(self):
         app = Flask(__name__)
+
         app.register_blueprint(author_bp)
+
         return app
 
     def setUp(self):
@@ -25,8 +32,8 @@ class TestAuthor(TestCase):
             "first_name": "Teste",
             "last_name": "Autor",
             "email": "teste.autor@teste.com.br",
-            "twitter_username": "novo.autor@teste.com.br",
-            "avatar_url": "novo.autor@teste.com.br",
+            "twitter_username": "twitter_username",
+            "avatar_url": "avatar_url",
         }
         self.author = Author(**self.author_data)
 
@@ -101,3 +108,40 @@ class TestAuthor(TestCase):
             # verifica se não foi adicionado um novo autor com o mesmo email
             authors = self.session.query(Author).all()
             self.assertEqual(len(authors), 2)
+
+    def test_return_author_by_id(self):
+        with self.client:
+            self.assertEqual(self.author.id, 3)
+
+            # faz requisição GET para um id válido
+            response = self.client.get("/author/{}".format(self.author.id))
+
+            # verifica se a resposta é 200
+            self.assertEqual(response.status_code, 200)
+
+            # verifica se os dados do autor retornado são os mesmos que foram
+            # adicionados
+            self.assertEqual(response.json["id"], self.author.id)
+            self.assertEqual(
+                response.json["first_name"], self.author.first_name
+            )
+            self.assertEqual(response.json["last_name"], self.author.last_name)
+            self.assertEqual(response.json["email"], self.author.email)
+            self.assertEqual(
+                response.json["twitter_username"], self.author.twitter_username
+            )
+            self.assertEqual(
+                response.json["avatar_url"], self.author.avatar_url
+            )
+
+            # faz requisição GET para um id inválido
+            response = self.client.get("/author/{}".format(-1))
+
+            # verifica se a resposta é 404
+            self.assertEqual(response.status_code, 404)
+
+            # verifica se a mensagem de erro foi retornada corretamente
+            expected_error_message = {
+                "message": "Autor não encontrado na base :/"
+            }
+            self.assertEqual(response.json, expected_error_message)

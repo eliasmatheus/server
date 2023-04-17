@@ -8,7 +8,6 @@ from app import app
 def test_client():
     flask_app = app
 
-    flask_app.testing = True
     testing_client = flask_app.test_client()
 
     # Establish an application context before running the tests.

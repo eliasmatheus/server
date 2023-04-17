@@ -1,10 +1,10 @@
 from sqlalchemy.exc import IntegrityError
 from logger import logger
 
-from database import Session
-from modules.author import Author
+from models import Session
 
-from ..models import Article
+
+from models import Article, Author
 from ..schemas import *
 
 

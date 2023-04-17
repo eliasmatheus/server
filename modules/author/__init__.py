@@ -1,6 +1,3 @@
-# importando os elementos definidos no modelo
-from .models import *
-
 # importando o blueprint do autor
 from .routes import *
 

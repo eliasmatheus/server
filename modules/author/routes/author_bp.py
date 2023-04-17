@@ -53,9 +53,8 @@ def get_author(path: AuthorSearchSchema):
 
     Retorna uma representação do autor.
     """
-    author_id = path.id
 
-    return return_author_by_id(author_id)
+    return return_author_by_id(path)
 
 
 @author_bp.put(

@@ -4,7 +4,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Text
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from typing import Union
-from shared.models import Base
+from models import Base
 from shared.utils import *
 
 

@@ -5,7 +5,7 @@ from sqlalchemy_utils import EmailType
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from typing import Union
-from shared.models import Base
+from models import Base
 
 
 class Author(Base):
