@@ -2,10 +2,10 @@ from flask import Flask
 from flask_testing import TestCase
 import os
 
-from modules.author import author_bp
+from routes import author_bp
 from models import Author, Session
 
-# from modules.author.schemas import AuthorSchema
+# from routes.schemas import AuthorSchema
 
 
 class TestAuthor(TestCase):

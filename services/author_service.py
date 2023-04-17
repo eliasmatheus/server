@@ -2,7 +2,7 @@ from sqlalchemy.exc import IntegrityError
 from logger import logger
 
 from models import Author, Session
-from ..schemas import *
+from schemas import *
 
 
 def get_all_authors():

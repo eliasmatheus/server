@@ -2,8 +2,7 @@ from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect
 from flask_cors import CORS
 
-from modules.author import author_bp
-from modules.article import article_bp
+from routes import author_bp, article_bp
 
 info = Info(title="Code Chronicles API", version="1.0.0")
 app = OpenAPI(__name__, info=info)

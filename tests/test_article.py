@@ -1,10 +1,7 @@
 from flask import Flask
 from flask_testing import TestCase
-import os
 
-from modules.article import article_bp
-from modules.author import author_bp
-
+from routes import author_bp, article_bp
 from models import Author, Article, Session
 
 
@@ -207,7 +204,8 @@ class TestArticle(TestCase):
         # faz requisição DELETE para remover o artigo criado no método setUp
         response = self.client.delete(f"/article/{self.article.id}")
 
-        # verifica se a resposta é 200 e se contém a mensagem de confirmação e o id do artigo removido
+        # verifica se a resposta é 200 e se contém a mensagem de confirmação e
+        # o id do artigo removido
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content_type, "application/json")
         self.assertIsInstance(response.json, dict)
