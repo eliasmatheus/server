@@ -1,6 +1,5 @@
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect
-
 from flask_cors import CORS
 
 from modules.author import author_bp

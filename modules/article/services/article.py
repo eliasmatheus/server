@@ -1,7 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from logger import logger
-from shared.models import Session
 
+from database import Session
 from modules.author import Author
 
 from ..models import Article

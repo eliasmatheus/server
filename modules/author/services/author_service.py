@@ -3,7 +3,7 @@ from logger import logger
 from modules.author.models.author import Author
 from ..schemas import *
 
-from shared.models import Session
+from database import Session
 
 
 def get_all_authors():
