@@ -1,4 +1,4 @@
-from .author_service import (
+from .author import (
     add_author,
     delete_author_by_id,
     edit_author,

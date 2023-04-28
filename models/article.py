@@ -21,7 +21,7 @@ class Article(Base):
     id = Column(String(50), primary_key=True)
     title = Column(String(90), unique=True)
     subtitle = Column(String(200), nullable=False)
-    date_posted = Column(DateTime, default=datetime.now())
+    created_at = Column(DateTime, default=datetime.now())
     content = Column(Text, nullable=False)
 
     # Definição do relacionamento entre o comentário e um produto.
@@ -42,7 +42,7 @@ class Article(Base):
         author_id: int,
         content: str,
         id: str = None,
-        date_posted: Union[DateTime, None] = None,
+        created_at: Union[DateTime, None] = None,
     ):
         """
         Cria um novo artigo.
@@ -54,7 +54,7 @@ class Article(Base):
             subtitle (str): Subtítulo do artigo.
             author (str): Autor do artigo.
             content (str): Conteúdo do artigo.
-            date_posted (datetime, optional): Data de publicação do artigo. Se
+            created_at (datetime, optional): Data de publicação do artigo. Se
                 não for especificada, a data de publicação será a data atual.
 
         Returns:
@@ -73,8 +73,8 @@ class Article(Base):
         self.content = content
 
         # se não for informada, será o data exata da inserção no banco
-        if date_posted:
-            self.date_posted = date_posted
+        if created_at:
+            self.created_at = created_at
 
     def generate_id(self, title):
         """Gera um id para o artigo baseado no título."""

@@ -143,7 +143,7 @@ def edit_author(form: AuthorUpdateSchema):
             session.commit()
             logger.debug(f"Editado autor de ID: '{old_author.id}'")
 
-            return show_author(author), 200
+            return show_author(old_author), 200
 
         except Exception as e:
             # caso um erro fora do previsto

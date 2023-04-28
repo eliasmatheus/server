@@ -25,7 +25,7 @@ class ArticlePreviewSchema(BaseModel):
     title: str = "Título do artigo"
     subtitle: str = "Subtítulo do artigo"
     author_id: int = 1
-    date_posted: str = "Data de postagem do artigo"
+    created_at: str = "Data de postagem do artigo"
 
 
 class ArticleIDsSchema(BaseModel):
@@ -54,7 +54,7 @@ class ArticleViewSchema(ArticleSchema):
 
     id: str = "ID do artigo"
     content: str = "Conteúdo do artigo"
-    date_posted: str = "Data de postagem do artigo"
+    created_at: str = "Data de postagem do artigo"
 
 
 class ArticleListSchema(BaseModel):
@@ -101,7 +101,7 @@ def show_articles(articles: List[Article]) -> dict:
                 "title": article.title,
                 "subtitle": article.subtitle,
                 "author_id": article.author_id,
-                "date_posted": article.date_posted,
+                "created_at": article.created_at,
             }
         )
 
@@ -133,7 +133,7 @@ def show_article_details(article: Article) -> dict:
             "twitter_username": article.author.twitter_username,
         },
         "content": article.content,
-        "date_posted": article.date_posted,
+        "created_at": article.created_at,
     }
 
 
@@ -154,5 +154,5 @@ def show_article(article: Article) -> dict:
         "subtitle": article.subtitle,
         "author_id": article.author_id,
         "content": article.content,
-        "date_posted": article.date_posted,
+        "created_at": article.created_at,
     }
